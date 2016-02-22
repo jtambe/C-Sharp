@@ -1,0 +1,43 @@
+/*
+ * Complete the function below.
+ */
+    static int maxDifference(int[] a) {
+        
+        // Find maximum in an array. Get its index.
+        int max = a[0];
+        int maxIndex = 0;
+        for(int i =0; i < a.Length ; i++){            
+            if(a[i] > max){
+                max = a[i];
+                maxIndex = i;                
+            }            
+        }
+               
+        // Run a loop from 0 to maxindex - 1 to find minimum element.
+        int min = a[0];
+        int minIndex = 0;
+        for(int i =0; i < maxIndex ; i++){            
+            if(a[i] < min){
+                min = a[i];
+                minIndex = i;                
+            }            
+        }
+                        
+        // Return difference between them
+        if(a[maxIndex] < a[minIndex]){
+            return -1;
+        }
+        //else if(a[maxIndex] == a[minIndex]){
+        //    return -1;
+        //}
+        else if(maxIndex == 0){
+            return -1;
+        }        
+        else{
+            return a[maxIndex] - a[minIndex];    
+        }
+        
+
+
+    }
+
