@@ -1,0 +1,69 @@
+/*
+ * Complete the function below.
+ */
+    static int palindrome(string str) {
+        
+        Dictionary<string,int> palindromes = new Dictionary<string,int>();
+        int totalPalindromes = 0;
+        
+        //Console.WriteLine(str);
+        
+        for(int i = 1; i <= str.Length; i++){
+            
+            for(int j = 0; j <= str.Length-i; j++){
+                
+                string stringToCheck = str.Substring(j,i); 
+                
+                //Console.WriteLine(stringToCheck);
+                
+                if (Verify(stringToCheck)){
+                
+                    if(palindromes.ContainsKey(stringToCheck)){
+                        int repeat = palindromes[stringToCheck];
+                        palindromes[stringToCheck] = repeat+1;
+                    }
+                    else{
+                        palindromes.Add(stringToCheck,1);
+                    }
+                }                   
+            }
+                                                         
+        }
+        
+        foreach(KeyValuePair<string,int> pair in palindromes){
+            totalPalindromes++;            
+        }
+        
+        //Console.WriteLine(totalPalindromes);
+        return totalPalindromes;
+        
+        
+    }
+
+    public static bool Verify(string stringToCheck){
+    
+            int min = 0;
+            int max = stringToCheck.Length-1;
+            
+            while(true){
+                
+                if(min > max){
+                    return true;
+                }
+                
+                char a = stringToCheck[min];
+                char b = stringToCheck[max];     
+                
+                if(char.ToLower(a) != char.ToLower(b)){
+                    return false;
+                }
+                
+                min++;
+                max--;
+                
+            }
+    
+        //return stringToCheck.SequenceEqual(stringToCheck.Reverse());
+    
+    }
+
