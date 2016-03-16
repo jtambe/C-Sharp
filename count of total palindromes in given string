@@ -1,0 +1,92 @@
+/*
+Dynamic Programming
+Find total number of palidromes in a given string
+
+Language used : C#
+*/
+
+using System;
+
+// To execute C#, please define "static void Main" on a class
+// named Solution.
+
+class Solution
+{
+    static void Main(string[] args)
+    {
+       //string input = Console.ReadLine();    
+        string input = "ababbbabbababa";
+        //string input = "ababa";
+        Console.WriteLine(input);
+        //char [] inputArray = input.ToCharArray();
+        
+        int [,] dynamicTable = new int [input.Length,input.Length];
+        
+        for(int i =0; i < input.Length ; i++){            
+            for(int j =0; j < input.Length ; j++){                                
+                dynamicTable[i,j] = 0;
+            }            
+        }
+        
+        for(int i = 0 ; i < input.Length ; i++){
+            for(int j = 0; j <= i; j++){
+                dynamicTable[i,j] = 1;
+            }
+        }
+        
+        // for(int i= 0, j = 0; i < input.Length && j < input.Length ; i++,j++){          
+        //     dynamicTable[i,j] = 1;            
+        // }
+        
+        // for(int i =0; i < input.Length ; i++){            
+        //     for(int j =0; j < input.Length ; j++){                
+        //         Console.Write(dynamicTable[i,j]);                                
+        //     }
+        //     Console.WriteLine();
+        // }
+        
+        int iLimit = input.Length -2,jStart = 1;
+        
+        for(int k = 0 ; k < input.Length ; k++){
+            
+            int i = 0,  j = jStart;
+            while(i < iLimit && j < input.Length){
+                
+                    if(input[i] == input[j] && dynamicTable[i+1,j-1] == 1){                        
+                        dynamicTable[i,j] =1;
+                    }
+                    else{
+                        dynamicTable[i,j] =0;
+                    }
+                    j++;
+                    i++;
+            }
+            jStart++;
+            iLimit--;
+        }
+        
+        //Console.WriteLine("Printing Final Table");
+        for(int i =0; i < input.Length ; i++){            
+            for(int j =0; j < input.Length ; j++){                
+                Console.Write(dynamicTable[i,j]);                                
+            }
+            Console.WriteLine();
+        }
+        
+        int totalPalindromes = 0;
+        for(int i =0; i < input.Length ; i++){            
+            for(int j =0; j < input.Length ; j++){                
+                if(dynamicTable[i,j] == 1 && j >= i){
+                    totalPalindromes++;
+                }
+            }
+        
+        }
+        
+        Console.WriteLine("Total Palindromes" + totalPalindromes);
+        
+        
+        
+        
+    }
+}
