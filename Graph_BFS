@@ -108,7 +108,7 @@ namespace Graph
             try
             {
                 Graph graphObj = new Graph();
-                var fileStream = new FileStream(@"C:\Users\tambe\Desktop\Jayesh\Graph1.txt", FileMode.Open, FileAccess.Read);
+                var fileStream = new FileStream(@"C:\Jayesh\Graph1.txt", FileMode.Open, FileAccess.Read);
                 using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
                 {
                     string line;
