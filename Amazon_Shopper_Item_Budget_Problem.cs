@@ -87,7 +87,7 @@ namespace Shopper_item_budget_problem
             
             long answer;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i <= 100; i++)
             {
 
                 Stopwatch stopwatch = new Stopwatch();
@@ -119,7 +119,6 @@ namespace Shopper_item_budget_problem
 
         }
 
-        [Benchmark]
         public static long NumberOfOptions(List<int> pairOfJeans, List<int> pairOfShoes, List<int> tops, List<int> Skirts, int dollars)
         {
             long numberOfOptions = 0;
@@ -150,7 +149,7 @@ namespace Shopper_item_budget_problem
             long numberOfOptions = 0;
 
             Dictionary<string, int> memoizationCD = new Dictionary<string, int>();
-            Dictionary<string, int> memoizationBCD = new Dictionary<string, int>();
+            Dictionary<string, int> memoizationAB = new Dictionary<string, int>();
 
             // Get rid of all values greater than or equal to dollar amount for just one item
             // which means if skirt costs as much as budget then shopper cannot buy other items so get rid of that price for skirt
@@ -222,16 +221,15 @@ namespace Shopper_item_budget_problem
                 }
             }
 
+
             // use memoization dictionary and only send data for prices that are less than budget
-            Console.WriteLine("memoizationCD Count: " + memoizationCD.Count);
-            Console.WriteLine("pairOfShoes Count: " + pairOfShoes.Count);
-            foreach (var pair in memoizationCD)
+            for (int a = 0; a < pairOfJeans.Count; a++)
             {
                 for (int b = 0; b < pairOfShoes.Count; b++)
                 {
-                    if (pair.Value + pairOfShoes[b]  < dollars)
+                    if (pairOfJeans[a] + pairOfShoes[b] < dollars)
                     {
-                        memoizationBCD["b" + b + pair.Key.ToString()] = pair.Value + pairOfShoes[b];
+                        memoizationAB["a" + a + "b" + b] = pairOfJeans[a] + pairOfShoes[b];
                     }
                     else
                     {
@@ -240,25 +238,22 @@ namespace Shopper_item_budget_problem
                 }
             }
 
-            // finally use memoization data to find out if 4 items fit into budget
-            Console.WriteLine("memoizationBCD Count: " + memoizationBCD.Count);
-            Console.WriteLine("pairOfJeans Count: " + pairOfJeans.Count);
-            foreach (var pair in memoizationBCD)
+            Console.WriteLine("memoizationCD Count: " + memoizationCD.Count);
+            Console.WriteLine("memoizationAB Count: " + memoizationAB.Count);
+            foreach (var outerPair in memoizationAB)
             {
-                for (int a = 0; a < pairOfJeans.Count; a++)
+                foreach (var innerPair in memoizationCD)
                 {
-                    if (pair.Value + pairOfJeans[a] <= dollars)
+                    if (innerPair.Value + outerPair.Value <= dollars)
                     {
                         numberOfOptions++;
                     }
-                    else
+                    else 
                     {
                         break;
                     }
                 }
-                        
             }
-            
 
             return numberOfOptions;
 
