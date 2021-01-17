@@ -1,0 +1,104 @@
+using System;
+using System.Collections.Generic;
+
+namespace FrogHopper
+{
+    public class FrogHopper
+    {
+
+        //Frog hopper problem
+
+        //Given an array of rocks in a lake,
+        //can frog make it to the other end of the lake?
+
+        //Constraints:
+        //Frog can only jump 2 or 5 blocks at a time.
+        //Frog can travel forward and backward as well
+
+
+        public static string[] GenerateData()
+        {
+            int thousand = (int)Math.Pow(10, 3);
+            Random rnd = new Random();
+            int araySize = rnd.Next(0, 30);
+
+            //lakeRocksPositions
+            string[] lakeRocksPositions = new string[araySize];
+            for (int i = 0; i < araySize; i++)
+            {
+                lakeRocksPositions[i] = "0";
+            }
+            for (int i = 0; i < araySize; i++)
+            {
+                int nextRock = rnd.Next(1, 6);
+                if (i + nextRock >= araySize)
+                {
+                    break;
+                }
+                else
+                {
+                    lakeRocksPositions[i] = "rock";
+                    i += nextRock;
+                }
+            }
+
+            return lakeRocksPositions;
+
+        }
+        public class PositionNode
+        {
+            public bool isRoot = false;
+            public int positionBlockNumber;
+            public List<PositionNode> childrenNodes;
+            public PositionNode parentNode;
+
+        }
+
+        public static bool DoesPathExist(string [] LakeRockData, PositionNode node)
+        {
+            bool pathExists = false;
+            PositionNode curNode = node;
+
+            if ((curNode.positionBlockNumber + 2 >= LakeRockData.Length - 1) || (curNode.positionBlockNumber + 5 >= LakeRockData.Length - 1))
+            {
+                return true;
+            }
+
+            if (!pathExists)
+            {
+                if (LakeRockData[curNode.positionBlockNumber + 2].Equals("rock"))
+                {
+                    DoesPathExist(LakeRockData, new PositionNode { positionBlockNumber = curNode.positionBlockNumber + 2 });
+                }
+                if (LakeRockData[curNode.positionBlockNumber + 5].Equals("rock"))
+                {
+                    DoesPathExist(LakeRockData, new PositionNode { positionBlockNumber = curNode.positionBlockNumber + 5 });
+                }
+            }
+
+            return pathExists;
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+
+            for (int i = 1; i <= 100; i++)
+            {
+                var LakeRockData = GenerateData();
+
+                PositionNode root = new PositionNode { isRoot = true, positionBlockNumber = -1 };
+
+                var pathExists = DoesPathExist(LakeRockData, root);
+                Console.WriteLine("Attempt Number: " + i);
+                Console.WriteLine("PathExists: " + pathExists);
+            }
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Simulation Over");
+            Console.ReadKey();
+
+        }
+
+    }
+}
