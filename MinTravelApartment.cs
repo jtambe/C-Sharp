@@ -1,6 +1,5 @@
 
-https://www.youtube.com/watch?v=rw4s4M3hFfs
-
+// https://www.youtube.com/watch?v=rw4s4M3hFfs
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +58,8 @@ namespace Shopper_item_budget_problem
             //forward pass
             for (int i = 0; i < blocks.Count; i++)
             {
-                var blockDistance = new BlockDistance() { BlockId= i, Gym = int.MaxValue, School = int.MaxValue, Office = int.MaxValue, Store = int.MaxValue, MaxTravel = int.MaxValue };
+                var blockDistance = new BlockDistance() 
+                { BlockId= i, Gym = int.MaxValue, School = int.MaxValue, Office = int.MaxValue, Store = int.MaxValue, MaxTravel = int.MaxValue };
                 if (blocks[i].Gym)
                 { 
                     blockDistance.Gym = 0; 
