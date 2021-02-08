@@ -60,6 +60,7 @@ namespace Shopper_item_budget_problem
             {
                 var blockDistance = new BlockDistance() 
                 { BlockId= i, Gym = int.MaxValue, School = int.MaxValue, Office = int.MaxValue, Store = int.MaxValue, MaxTravel = int.MaxValue };
+
                 if (blocks[i].Gym)
                 { 
                     blockDistance.Gym = 0; 
