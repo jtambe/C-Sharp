@@ -25,7 +25,8 @@ N is an integer within the range [1..2,147,483,647].
 					
 public class Program
 {
-	public static int solution(int N) {
+	public static int solution(int N) 
+	{
         // write your code in C# 6.0 with .NET 4.5 (Mono)
         string binaryString = Convert.ToString(N,2);
         int maxCount =0;
