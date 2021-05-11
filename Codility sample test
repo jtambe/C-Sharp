@@ -38,4 +38,30 @@ class Solution
         }
         return -1;        
     }
+    
+    public int FirstMissingPositive(int[] A) {
+        int smallest = 0;
+
+        Array.Sort(A);
+        foreach(int i in A)
+        {
+            if(i <= smallest)
+            {
+                continue;
+            }
+            else
+            {
+                smallest++;
+                if(i == smallest)
+                {continue;}
+                else
+                {return smallest;}
+            }
+
+        }
+
+        return ++smallest;
+        
+        
+    }
 }  
