@@ -27,31 +27,30 @@ public class Program
 {
 	public static int solution(int N) 
 	{
-        // write your code in C# 6.0 with .NET 4.5 (Mono)
-        string binaryString = Convert.ToString(N,2);
-        int maxCount =0;
-        for(int i=0; i < binaryString.Length; i++)
-        {
-            if(binaryString[i] == '1' && i+1 < binaryString.Length && binaryString[i+1] == '0')
-            {
-                int currentCount = 0;
-                while(i+1 < binaryString.Length && binaryString[i+1] == '0')
-                {
-                    currentCount++;
-                    i++;
-                }
-                if(i+1 < binaryString.Length && binaryString[i+1] == '1')
-                {
-                    if(currentCount > maxCount) 
-                    {
-                        maxCount = currentCount;
-                    }
-                }
-            }
+		// write your code in C# 6.0 with .NET 4.5 (Mono)
+		string binaryString = Convert.ToString(N,2);
+		int maxCount =0;
+		for(int i=0; i < binaryString.Length; i++)
+		{
+		    if(binaryString[i] == '1' && i+1 < binaryString.Length && binaryString[i+1] == '0')
+		    {
+			int currentCount = 0;
+			while(i+1 < binaryString.Length && binaryString[i+1] == '0')
+			{
+			    currentCount++;
+			    i++;
+			}
+			if(i+1 < binaryString.Length && binaryString[i+1] == '1')
+			{
+			    if(currentCount > maxCount) 
+			    {
+				maxCount = currentCount;
+			    }
+			}
+		    }
+		}
+		return maxCount;
         }
-        return maxCount;
-
-    }
 	
 	public static void Main()
 	{
