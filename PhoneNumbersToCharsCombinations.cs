@@ -1,0 +1,124 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace PhoneNumbersToChars
+{
+
+    //https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+
+    
+
+    public class PhoneNumbersToChars
+    {
+
+
+        public static IList<string> LetterCombinations(string digits)
+        {
+            IList<string> result = new List<string>();
+            if (string.IsNullOrEmpty(digits))
+            {
+                return result;
+            }
+
+            foreach (char c in digits)
+            {
+                if ((int)c > (int)'9' || (int)c < (int)'2')
+                {
+                    return result;
+                }
+
+            }
+
+            Dictionary<char, string> digitCharsMapping = new Dictionary<char, string>();
+            digitCharsMapping.Add('2', "abc");
+            digitCharsMapping.Add('3', "def");
+            digitCharsMapping.Add('4', "ghi");
+            digitCharsMapping.Add('5', "jkl");
+            digitCharsMapping.Add('6', "mno");
+            digitCharsMapping.Add('7', "pqrs");
+            digitCharsMapping.Add('8', "tuv");
+            digitCharsMapping.Add('9', "wxyz");
+
+            HashSet<string> visited = new HashSet<string>();
+            Stack<char> callStack = new Stack<char>();
+
+            for (int i = 0; i < digits.Length; i++)
+            {
+                foreach (char c in digitCharsMapping[digits[i]])
+                {
+                    if (!visited.Contains(c+ "_"+ i))
+                    {
+                        visited.Add(c + "_" + i);
+                        callStack.Push(c);
+
+                        if (i == digits.Length -1)
+                        {
+                            // create string for result
+                            var charArray = callStack.ToArray();
+                            StringBuilder str = new StringBuilder();
+                            for (int l = charArray.Length - 1; l >= 0; l--)
+                            {
+                                str.Append(charArray[l]);
+                            }
+                            result.Add(str.ToString());
+                            callStack.Pop();
+
+                            // go back one step in digits
+                            --i;
+                        }
+                        break;
+                    }
+
+                    // check if visited contains all the chars for number
+                    bool visitedAllCharsForNumber = true;
+                    foreach (char s in digitCharsMapping[digits[i]])
+                    {
+                        if (!visited.Contains(s + "_" + i))
+                        {
+                            visitedAllCharsForNumber = false;
+                        }
+
+                    }
+                    // if it does that means last level is printed, remove those chars for this iteration
+                    // but if it is at level 0 then it means all the combinatations are added in result and now it is time to exit
+                    if(visitedAllCharsForNumber && i == 0)
+                    {
+                        return result;
+                    }
+
+                    if (visitedAllCharsForNumber)
+                    {
+                        foreach (char s in digitCharsMapping[digits[i]])
+                        {
+                            visited.Remove(s + "_" + i);
+                        }
+                        i = i - 2;
+                        callStack.Pop();
+                        break;
+                    }
+                }
+            }
+            return result;
+
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Letter Combinations");
+
+            //var result = LetterCombinations("23");
+            //var result = LetterCombinations("234");
+            //var result = LetterCombinations("2345");
+            var result = LetterCombinations("22");
+            foreach (var str in result)
+            {
+                Console.WriteLine(str);
+            }
+
+            Console.ReadKey();
+
+        }
+
+    }
+}
