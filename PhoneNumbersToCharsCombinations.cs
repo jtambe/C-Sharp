@@ -54,7 +54,7 @@ namespace DFS_NonRecursive
                 {
                     if (!visited.Contains(c+ "_"+ i))
                     {
-                        // hashset add c+_+i because, input can be "222" and we can determine which level of 2 is visited
+                        // hashset adds c+_+i because, input can be "222" and we can determine which level(i) of a character from 2 is visited
                         visited.Add(c + "_" + i);
                         callStack.Push(c);
 
