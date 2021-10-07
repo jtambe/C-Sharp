@@ -1,4 +1,4 @@
-namespace ProblemSolving
+namespace DFS_NonRecursive
 {
     public class TrieNode
     {
@@ -25,6 +25,7 @@ namespace ProblemSolving
             int charCounter = 0;
             while(charCounter < word.Length)
             {
+                // while current node has required char, keep using that char
                 while (currentTrieNode.childrenChars.Contains(word[charCounter]))
                 {
                     currentTrieNode = currentTrieNode.childrenNodes.FirstOrDefault(x => x.val == word[charCounter]);
@@ -36,6 +37,7 @@ namespace ProblemSolving
                     charCounter++;
                 }
 
+                // if it doesn't then create new node for non existing char in the chain
                 var newTrieNode = new TrieNode();
                 newTrieNode.val = word[charCounter];
                 currentTrieNode.childrenNodes.Add(newTrieNode);
@@ -63,6 +65,8 @@ namespace ProblemSolving
                 currentTrieNode = currentTrieNode.childrenNodes.FirstOrDefault(x => x.val == word[charCounter]);
                 charCounter++;
             }
+            // previous charcounter++ increments for last exsisting count, needs to be reversed
+            // applee is shown as valid word otherwise
             charCounter--;
             if (charCounter < word.Length -1)
             {
