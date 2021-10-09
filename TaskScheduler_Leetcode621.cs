@@ -1,6 +1,6 @@
 
 /*
-* LeetCode 621
+ * LeetCode 621 - Task scheduler
  * Given a characters array tasks, representing the tasks a CPU needs to do, 
 where each letter represents a different task. Tasks could be done in any order. 
 Each task is done in one unit of time. For each unit of time, the CPU could complete either one task or just be idle.
@@ -63,9 +63,9 @@ namespace DFS_NonRecursive
 
             int taskCompletedCount = 0;
             List<string> tasksCovered = new List<string>();
-            Dictionary<string, int> charFrequency = new Dictionary<string, int>();
-            Dictionary<string, int> addTasksForIdle = new Dictionary<string, int>();
-            Dictionary<string, int> charFreAux = new Dictionary<string, int>();
+            Dictionary<string, int> charFrequency = new Dictionary<string, int>(); // maintain chars and the frequency
+            Dictionary<string, int> addTasksForIdle = new Dictionary<string, int>(); // maintain chars and the required idle time before adding the char back in charFrequency
+            Dictionary<string, int> charFreAux = new Dictionary<string, int>(); // maintain chars and the frequency on the side while char was removed (set to -1) in charFrequency
 
             foreach (var task in tasks)
             {
@@ -92,11 +92,11 @@ namespace DFS_NonRecursive
             removeTask.frequency = pair.Value;
             removeTask.frequency--;
             
-            charFrequency[removeTask.name] = -1;
+            charFrequency[removeTask.name] = -1; // marking it as -1, making it as good as removed for this problem. Since modifying collections gives runtime exception when running loop
 
             tasksCovered.Add(removeTask.name);
 
-            charFreAux[removeTask.name] = removeTask.frequency;
+            charFreAux[removeTask.name] = removeTask.frequency; // keep the removed task data here before adding it back on after timer for that task is over
 
             addTasksForIdle[removeTask.name] = n-1;
 
@@ -108,7 +108,7 @@ namespace DFS_NonRecursive
             Dictionary<string, int> charFrequency, Dictionary<string, int> addTasksForIdle, Dictionary<string, int> charFreAux,
             int taskCompletedCount, int n)
         {
-
+            // keep doing this until all tasks ae completed
             if (taskCompletedCount == tasks.Length)
             {
                 return;
@@ -129,15 +129,16 @@ namespace DFS_NonRecursive
                 removeTask.frequency = pair.Value;
                 removeTask.frequency--;
 
-                charFrequency[removeTask.name] = -1;
+                charFrequency[removeTask.name] = -1; // marking it as -1, making it as good as removed for this problem. Since modifying collections gives runtime exception when running loop
 
                 tasksCovered.Add(removeTask.name);
 
-                charFreAux[removeTask.name] = removeTask.frequency;
+                charFreAux[removeTask.name] = removeTask.frequency; // keep the removed task data here before adding it back on after timer for that task is over
 
                 taskCompletedCount++;
             }
 
+            // for every task that was removed for main dictionary/queue keep the timer decreasing, so they can be added when timer is zero
             foreach (var key in addTasksForIdle.Keys.ToList())
             {
                 if (addTasksForIdle[key] == 0)
@@ -147,6 +148,8 @@ namespace DFS_NonRecursive
                 addTasksForIdle[key] = addTasksForIdle[key] - 1;
                 
             }
+
+            // if there was a task done (not "idle") then removed task needs to be added in the timer/idle dictionary counter
             if (removeTask.name != null)
             {
                 addTasksForIdle[removeTask.name] = n-1;
